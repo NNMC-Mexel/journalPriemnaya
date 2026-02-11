@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+*.db-journal
+*.db-wal
+
+# Strapi
+server/.tmp/
+server/dist/
+server/.cache/
+server/.strapi/
+server/strapi.log
+server/build/
+
+# Backend
+backend/database.db
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+nul
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Package lock (optional, keep if you want)
+# package-lock.json
