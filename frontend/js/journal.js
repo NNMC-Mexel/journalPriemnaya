@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:14000/api/journal';
+const API_URL = 'http://192.168.101.25:14000/api/journal';
 
 const LOOKUP_CACHE_KEY = 'journal_lookups_cache_v1';
 
