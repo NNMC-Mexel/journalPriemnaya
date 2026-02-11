@@ -1,12 +1,13 @@
-{
+﻿{
   "name": "journal-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "echo 'Static site, no build needed'",
-    "start": "serve -s . -l 15000"
+    "start": "serve . -l 15000"
   },
   "dependencies": {
     "serve": "^14.2.0"
   }
 }
+
