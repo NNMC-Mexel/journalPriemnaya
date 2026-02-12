@@ -81,6 +81,8 @@ const run = async () => {
           mkb_other: l.mkb_other,
           operation_code: l.operation_code,
           operation_other: l.operation_other,
+          department: l.department,
+          department_other: l.department_other,
           incoming_content: l.incoming_content,
           outgoing_content: l.outgoing_content,
           subject: l.subject,

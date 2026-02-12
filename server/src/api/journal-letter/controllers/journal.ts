@@ -8,6 +8,7 @@ const OP_UID = 'api::operation-code.operation-code';
 const ORG_UID = 'api::organization.organization';
 const REGION_UID = 'api::region.region';
 const HELP_UID = 'api::help-type.help-type';
+const DEPARTMENT_UID = 'api::department.department';
 
 const getJwtService = () => strapi.plugin('users-permissions').service('jwt');
 const getUserService = () => strapi.plugin('users-permissions').service('user');
@@ -32,6 +33,8 @@ const mapLetter = (letter: any) => ({
   mkb_other: letter.mkb_other,
   operation_code: letter.operation_code,
   operation_other: letter.operation_other,
+  department: letter.department,
+  department_other: letter.department_other,
   incoming_content: letter.incoming_content,
   outgoing_content: letter.outgoing_content,
   subject: letter.subject,
@@ -85,12 +88,13 @@ const requireJournalUser = async (ctx: Context) => {
 };
 
 const loadLookups = async () => {
-  const [mkb, ops, orgs, regions, helpTypes] = await Promise.all([
+  const [mkb, ops, orgs, regions, helpTypes, departments] = await Promise.all([
     strapi.db.query(MKB_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] }),
     strapi.db.query(OP_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] }),
     strapi.db.query(ORG_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] }),
     strapi.db.query(REGION_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] }),
-    strapi.db.query(HELP_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] })
+    strapi.db.query(HELP_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] }),
+    strapi.db.query(DEPARTMENT_UID).findMany({ orderBy: [{ sort: 'asc' }, { id: 'asc' }] })
   ]);
 
   return {
@@ -102,7 +106,8 @@ const loadLookups = async () => {
       emails: Array.isArray(x.emails) ? x.emails : []
     })),
     regions: regions.map((x: any) => x.name),
-    helpTypes: helpTypes.map((x: any) => x.name)
+    helpTypes: helpTypes.map((x: any) => x.name),
+    departments: departments.map((x: any) => x.name)
   };
 };
 
@@ -208,6 +213,8 @@ export default {
       mkb_other: normalize(payload.mkb_other),
       operation_code: normalize(payload.operation_code),
       operation_other: normalize(payload.operation_other),
+      department: normalize(payload.department),
+      department_other: normalize(payload.department_other),
       incoming_content: normalize(payload.incoming_content),
       outgoing_content: normalize(payload.outgoing_content),
       subject: normalize(payload.subject),
@@ -289,6 +296,8 @@ export default {
     const mkb_other = normalize(payload.mkb_other);
     const operation_code = normalize(payload.operation_code);
     const operation_other = normalize(payload.operation_other);
+    const department = normalize(payload.department);
+    const department_other = normalize(payload.department_other);
     const incoming_content = normalize(payload.incoming_content);
     const outgoing_content = normalize(payload.outgoing_content);
     const subject = normalize(payload.subject);
@@ -311,6 +320,8 @@ export default {
     compare('mkb_other', mkb_other);
     compare('operation_code', operation_code);
     compare('operation_other', operation_other);
+    compare('department', department);
+    compare('department_other', department_other);
     compare('incoming_content', incoming_content);
     compare('outgoing_content', outgoing_content);
     compare('subject', subject);
@@ -336,6 +347,8 @@ export default {
         mkb_other,
         operation_code,
         operation_other,
+        department,
+        department_other,
         incoming_content,
         outgoing_content,
         subject,

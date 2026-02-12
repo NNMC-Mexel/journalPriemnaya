@@ -155,6 +155,13 @@ body {
   gap: 14px;
 }
 
+.row-4 {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
 .field label {
   font-size: 12px;
   color: var(--muted);
@@ -308,6 +315,14 @@ body {
   display: flex;
   gap: 12px;
   margin-top: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.list-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -328,6 +343,17 @@ body {
   background: #f4efe7;
   color: var(--ink);
   border: 1px solid var(--border);
+}
+
+.btn-filter {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.btn-filter.active {
+  background: #eef7f4;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .btn.danger {
@@ -471,6 +497,10 @@ body.modal-open {
   }
 
   .row-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .row-4 {
     grid-template-columns: 1fr;
   }
 }

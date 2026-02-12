@@ -7,7 +7,8 @@ const JOURNAL_LOOKUPS = {
   operationCodes: [],
   organizations: [],
   regions: [],
-  helpTypes: []
+  helpTypes: [],
+  departments: []
 };
 
 const parseLookups = () => {
@@ -17,16 +18,17 @@ const parseLookups = () => {
   const text = fs.readFileSync(filePath, 'utf8');
 
   const getArray = (name) => {
-    const re = new RegExp(`const ${name} = \\[(\\s|\\S)*?\\];`);
+    const re = new RegExp(`(?:const|let) ${name} = \\[(\\s|\\S)*?\\];`);
     const m = text.match(re);
     if (!m) return [];
-    const arrText = m[0].replace(new RegExp(`const ${name} =`), '');
+    const arrText = m[0].replace(new RegExp(`(?:const|let) ${name} =`), '');
     // eslint-disable-next-line no-eval
     return eval(arrText);
   };
 
   const mkb = getArray('MKB_CODES');
   const ops = getArray('OPERATION_CODES');
+  const departments = getArray('DEFAULT_DEPARTMENTS');
 
   const mapMatch = text.match(/const ORG_EMAIL_MAP = \{([\s\S]*?)\};/);
   let orgMap = {};
@@ -57,6 +59,7 @@ const parseLookups = () => {
   }));
   JOURNAL_LOOKUPS.regions = regions;
   JOURNAL_LOOKUPS.helpTypes = helpTypes;
+  JOURNAL_LOOKUPS.departments = departments;
 
   return JOURNAL_LOOKUPS;
 };
@@ -73,12 +76,14 @@ const run = async () => {
     const orgUid = 'api::organization.organization';
     const regionUid = 'api::region.region';
     const helpUid = 'api::help-type.help-type';
+    const departmentUid = 'api::department.department';
 
     await strapi.db.query(mkbUid).deleteMany({});
     await strapi.db.query(opUid).deleteMany({});
     await strapi.db.query(orgUid).deleteMany({});
     await strapi.db.query(regionUid).deleteMany({});
     await strapi.db.query(helpUid).deleteMany({});
+    await strapi.db.query(departmentUid).deleteMany({});
 
     for (let i = 0; i < lookups.mkbCodes.length; i += 1) {
       await strapi.db.query(mkbUid).create({ data: { code: String(lookups.mkbCodes[i]), sort: i } });
@@ -107,6 +112,10 @@ const run = async () => {
 
     for (let i = 0; i < lookups.helpTypes.length; i += 1) {
       await strapi.db.query(helpUid).create({ data: { name: String(lookups.helpTypes[i]), sort: i } });
+    }
+
+    for (let i = 0; i < lookups.departments.length; i += 1) {
+      await strapi.db.query(departmentUid).create({ data: { name: String(lookups.departments[i]), sort: i } });
     }
 
     strapi.log.info('Lookup migration completed');

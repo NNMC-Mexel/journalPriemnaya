@@ -430,6 +430,36 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
+  collectionName: 'departments';
+  info: {
+    description: '';
+    displayName: 'Department';
+    pluralName: 'departments';
+    singularName: 'department';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    sort: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiHelpTypeHelpType extends Struct.CollectionTypeSchema {
   collectionName: 'help_types';
   info: {
@@ -525,6 +555,8 @@ export interface ApiJournalLetterJournalLetter
       Schema.Attribute.Private;
     direction: Schema.Attribute.Enumeration<['incoming', 'outgoing']> &
       Schema.Attribute.DefaultTo<'incoming'>;
+    department: Schema.Attribute.String;
+    department_other: Schema.Attribute.String;
     fio: Schema.Attribute.String & Schema.Attribute.Required;
     help_type: Schema.Attribute.String;
     incoming_content: Schema.Attribute.Text;
@@ -1196,6 +1228,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::department.department': ApiDepartmentDepartment;
       'api::help-type.help-type': ApiHelpTypeHelpType;
       'api::journal-letter-change.journal-letter-change': ApiJournalLetterChangeJournalLetterChange;
       'api::journal-letter.journal-letter': ApiJournalLetterJournalLetter;

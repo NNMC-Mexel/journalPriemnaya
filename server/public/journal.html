@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Журнал писем</title>
+    <title>Р вЂ“РЎС“РЎР‚Р Р…Р В°Р В» Р С—Р С‘РЎРѓР ВµР С</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,137 +15,150 @@
   <body>
     <div class="page">
       <div class="brand">
-        <h1>Электронный журнал писем</h1>
+        <h1>Р В­Р В»Р ВµР С”РЎвЂљРЎР‚Р С•Р Р…Р Р…РЎвЂ№Р в„– Р В¶РЎС“РЎР‚Р Р…Р В°Р В» Р С—Р С‘РЎРѓР ВµР С</h1>
         <div class="user">
-          <span id="journal-user">Пользователь: —</span>
-          <button class="btn secondary btn-logout" id="logout-btn" type="button">Выйти</button>
+          <span id="journal-user">Р СџР С•Р В»РЎРЉР В·Р С•Р Р†Р В°РЎвЂљР ВµР В»РЎРЉ: РІР‚вЂќ</span>
+          <button class="btn secondary btn-logout" id="logout-btn" type="button">Р вЂ™РЎвЂ№Р в„–РЎвЂљР С‘</button>
         </div>
       </div>
 
       <div class="shell">
         <div class="panel">
           <div class="panel-header">
-            <h2>Письма</h2>
-            <input id="search" class="search" type="text" placeholder="Поиск по номеру, ФИО, теме" />
+            <h2>Р СџР С‘РЎРѓРЎРЉР СР В°</h2>
+            <input id="search" class="search" type="text" placeholder="Р СџР С•Р С‘РЎРѓР С” Р С—Р С• Р Р…Р С•Р СР ВµРЎР‚РЎС“, Р В¤Р ВР С›, РЎвЂљР ВµР СР Вµ" />
             <div class="actions" style="margin-top: 12px;">
-              <button class="btn secondary" id="new-letter">+ Новое письмо</button>
+              <button class="btn secondary" id="new-letter">+ Р СњР С•Р Р†Р С•Р Вµ Р С—Р С‘РЎРѓРЎРЉР СР С•</button>
+              <div class="list-filters" role="group" aria-label="Р В¤Р С‘Р В»РЎРЉРЎвЂљРЎР‚РЎвЂ№ Р С—Р С‘РЎРѓР ВµР С">
+                <button class="btn secondary btn-filter active" type="button" data-list-filter="all">Р вЂ™РЎРѓР Вµ</button>
+                <button class="btn secondary btn-filter" type="button" data-list-filter="incoming">Р вЂ™РЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р С‘Р Вµ</button>
+                <button class="btn secondary btn-filter" type="button" data-list-filter="outgoing">Р ВРЎРѓРЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р С‘Р Вµ</button>
+                <button class="btn secondary btn-filter" type="button" data-list-filter="overdue">Р СџРЎР‚Р С•РЎРѓРЎР‚Р С•РЎвЂЎР С”Р В°</button>
+              </div>
             </div>
           </div>
           <div class="list" id="letters-list"></div>
         </div>
 
         <div class="panel detail">
-          <h2 id="detail-title">Новое письмо</h2>
+          <h2 id="detail-title">Р СњР С•Р Р†Р С•Р Вµ Р С—Р С‘РЎРѓРЎРЉР СР С•</h2>
           <form id="letter-form">
             <div class="grid">
               <div class="field">
-                <label for="fio">ФИО</label>
+                <label for="fio">Р В¤Р ВР С›</label>
                 <input id="fio" type="text" required />
               </div>
               <div class="field">
-                <label for="region">Область (Казахстан)</label>
+                <label for="region">Р С›Р В±Р В»Р В°РЎРѓРЎвЂљРЎРЉ (Р С™Р В°Р В·Р В°РЎвЂ¦РЎРѓРЎвЂљР В°Р Р…)</label>
                 <select id="region"></select>
               </div>
               <div class="field full">
-                <label for="subject">Тема</label>
+                <label for="subject">Р СћР ВµР СР В°</label>
                 <input id="subject" type="text" />
               </div>
-              <div class="row-3">
+              <div class="row-4">
                 <div class="field">
-                  <label for="mkb">МКБ</label>
+                  <label for="mkb">Р СљР С™Р вЂ</label>
                   <div class="combobox" id="mkb-combobox">
-                    <input id="mkb" type="text" autocomplete="off" placeholder="Введите код МКБ..." />
+                    <input id="mkb" type="text" autocomplete="off" placeholder="Р вЂ™Р Р†Р ВµР Т‘Р С‘РЎвЂљР Вµ Р С”Р С•Р Т‘ Р СљР С™Р вЂ..." />
                     <div class="combobox-dropdown" id="mkb-dropdown"></div>
                   </div>
                 </div>
                 <div class="field">
-                  <label for="operation-code">Код операции</label>
+                  <label for="operation-code">Р С™Р С•Р Т‘ Р С•Р С—Р ВµРЎР‚Р В°РЎвЂ Р С‘Р С‘</label>
                   <div class="combobox" id="operation-code-combobox">
-                    <input id="operation-code" type="text" autocomplete="off" placeholder="Введите код операции..." />
+                    <input id="operation-code" type="text" autocomplete="off" placeholder="Р вЂ™Р Р†Р ВµР Т‘Р С‘РЎвЂљР Вµ Р С”Р С•Р Т‘ Р С•Р С—Р ВµРЎР‚Р В°РЎвЂ Р С‘Р С‘..." />
                     <div class="combobox-dropdown" id="operation-code-dropdown"></div>
                   </div>
                 </div>
                 <div class="field">
-                  <label for="help-type">Вид помощи</label>
+                  <label for="help-type">Р вЂ™Р С‘Р Т‘ Р С—Р С•Р СР С•РЎвЂ°Р С‘</label>
                   <select id="help-type"></select>
                 </div>
+                <div class="field">
+                  <label for="department">Р С›РЎвЂљР Т‘Р ВµР В»Р ВµР Р…Р С‘Р Вµ</label>
+                  <div class="combobox" id="department-combobox">
+                    <input id="department" type="text" autocomplete="off" placeholder="Р вЂ™Р Р†Р ВµР Т‘Р С‘РЎвЂљР Вµ Р С•РЎвЂљР Т‘Р ВµР В»Р ВµР Р…Р С‘Р Вµ..." />
+                    <div class="combobox-dropdown" id="department-dropdown"></div>
+                  </div>
+                </div>
+                </div>
               </div>
-            </div>
 
             <div class="section-title toggle-title">
-              <span>Входящее</span>
-              <button class="btn secondary btn-toggle" type="button" id="incoming-toggle">Развернуть</button>
+              <span>Р вЂ™РЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР Вµ</span>
+              <button class="btn secondary btn-toggle" type="button" id="incoming-toggle">Р В Р В°Р В·Р Р†Р ВµРЎР‚Р Р…РЎС“РЎвЂљРЎРЉ</button>
             </div>
             <div class="grid hidden" id="incoming-section">
               <div class="field">
-                <label for="incoming-number">Номер входящего</label>
+                <label for="incoming-number">Р СњР С•Р СР ВµРЎР‚ Р Р†РЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР С–Р С•</label>
                 <input id="incoming-number" type="text" />
               </div>
               <div class="field">
-                <label for="arrival-date">Дата прибытия</label>
+                <label for="arrival-date">Р вЂќР В°РЎвЂљР В° Р С—РЎР‚Р С‘Р В±РЎвЂ№РЎвЂљР С‘РЎРЏ</label>
                 <input id="arrival-date" type="date" />
               </div>
               <div class="field" style="grid-column: 1 / -1;">
-                <label for="incoming-content">Содержание входящего</label>
+                <label for="incoming-content">Р РЋР С•Р Т‘Р ВµРЎР‚Р В¶Р В°Р Р…Р С‘Р Вµ Р Р†РЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР С–Р С•</label>
                 <textarea id="incoming-content"></textarea>
               </div>
             </div>
 
             <div class="section-title toggle-title">
-              <span>Исходящее</span>
-              <button class="btn secondary btn-toggle" type="button" id="outgoing-toggle">Развернуть</button>
+              <span>Р ВРЎРѓРЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР Вµ</span>
+              <button class="btn secondary btn-toggle" type="button" id="outgoing-toggle">Р В Р В°Р В·Р Р†Р ВµРЎР‚Р Р…РЎС“РЎвЂљРЎРЉ</button>
             </div>
             <div class="grid hidden" id="outgoing-section">
               <div class="field">
-                <label for="outgoing-number">Номер исходящего</label>
+                <label for="outgoing-number">Р СњР С•Р СР ВµРЎР‚ Р С‘РЎРѓРЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР С–Р С•</label>
                 <input id="outgoing-number" type="text" />
               </div>
               <div class="field">
-                <label for="send-date">Дата отправки</label>
+                <label for="send-date">Р вЂќР В°РЎвЂљР В° Р С•РЎвЂљР С—РЎР‚Р В°Р Р†Р С”Р С‘</label>
                 <input id="send-date" type="date" />
               </div>
               <div class="field" style="grid-column: 1 / -1;">
-                <label for="outgoing-content">Содержание исходящего</label>
+                <label for="outgoing-content">Р РЋР С•Р Т‘Р ВµРЎР‚Р В¶Р В°Р Р…Р С‘Р Вµ Р С‘РЎРѓРЎвЂ¦Р С•Р Т‘РЎРЏРЎвЂ°Р ВµР С–Р С•</label>
                 <textarea id="outgoing-content"></textarea>
               </div>
             </div>
 
             <div class="section-title toggle-title">
-              <span>Перенос</span>
-              <button class="btn secondary btn-toggle" type="button" id="transfer-toggle">Развернуть</button>
+              <span>Р СџР ВµРЎР‚Р ВµР Р…Р С•РЎРѓ</span>
+              <button class="btn secondary btn-toggle" type="button" id="transfer-toggle">Р В Р В°Р В·Р Р†Р ВµРЎР‚Р Р…РЎС“РЎвЂљРЎРЉ</button>
             </div>
             <div class="grid hidden" id="transfer-section">
               <div class="field">
-                <label for="transfer-from">Перенос (с)</label>
+                <label for="transfer-from">Р СџР ВµРЎР‚Р ВµР Р…Р С•РЎРѓ (РЎРѓ)</label>
                 <input id="transfer-from" type="date" />
               </div>
               <div class="field">
-                <label for="transfer-to">Перенос (на)</label>
+                <label for="transfer-to">Р СџР ВµРЎР‚Р ВµР Р…Р С•РЎРѓ (Р Р…Р В°)</label>
                 <input id="transfer-to" type="date" />
               </div>
               <div class="field hidden" id="transfer-org-field">
-                <label for="transfer-org">Медицинская организация</label>
+                <label for="transfer-org">Р СљР ВµР Т‘Р С‘РЎвЂ Р С‘Р Р…РЎРѓР С”Р В°РЎРЏ Р С•РЎР‚Р С–Р В°Р Р…Р С‘Р В·Р В°РЎвЂ Р С‘РЎРЏ</label>
                 <div class="combobox" id="transfer-org-combobox">
-                  <input id="transfer-org" type="text" autocomplete="off" placeholder="Поиск организации..." />
+                  <input id="transfer-org" type="text" autocomplete="off" placeholder="Р СџР С•Р С‘РЎРѓР С” Р С•РЎР‚Р С–Р В°Р Р…Р С‘Р В·Р В°РЎвЂ Р С‘Р С‘..." />
                   <div class="combobox-dropdown" id="transfer-org-dropdown"></div>
                 </div>
               </div>
               <div class="field hidden" id="transfer-email-field">
-                <label for="transfer-email">Электронная почта</label>
-                <input id="transfer-email" type="text" autocomplete="off" placeholder="Email организации..." />
+                <label for="transfer-email">Р В­Р В»Р ВµР С”РЎвЂљРЎР‚Р С•Р Р…Р Р…Р В°РЎРЏ Р С—Р С•РЎвЂЎРЎвЂљР В°</label>
+                <input id="transfer-email" type="text" autocomplete="off" placeholder="Email Р С•РЎР‚Р С–Р В°Р Р…Р С‘Р В·Р В°РЎвЂ Р С‘Р С‘..." />
                 <div class="small-note" id="transfer-email-hint" style="margin-top: 2px;"></div>
               </div>
             </div>
 
             <div class="actions">
-              <button class="btn primary" type="submit">Сохранить</button>
-              <button class="btn secondary" type="button" id="reset-form">Очистить</button>
-              <button class="btn danger" type="button" id="delete-letter">Удалить</button>
+              <button class="btn primary" type="submit">Р РЋР С•РЎвЂ¦РЎР‚Р В°Р Р…Р С‘РЎвЂљРЎРЉ</button>
+              <button class="btn secondary" type="button" id="reset-form">Р С›РЎвЂЎР С‘РЎРѓРЎвЂљР С‘РЎвЂљРЎРЉ</button>
+              <button class="btn danger" type="button" id="delete-letter">Р Р€Р Т‘Р В°Р В»Р С‘РЎвЂљРЎРЉ</button>
             </div>
             <div class="small-note" id="status-text"></div>
             <div class="small-note" id="audit-text"></div>
             <div class="history">
-              <h3>История изменений</h3>
+              <h3>Р ВРЎРѓРЎвЂљР С•РЎР‚Р С‘РЎРЏ Р С‘Р В·Р СР ВµР Р…Р ВµР Р…Р С‘Р в„–</h3>
               <div id="history-list" class="history-list"></div>
             </div>
           </form>

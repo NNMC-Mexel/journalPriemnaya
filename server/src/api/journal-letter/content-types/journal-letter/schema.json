@@ -31,6 +31,8 @@
     "mkb_other": { "type": "string" },
     "operation_code": { "type": "string" },
     "operation_other": { "type": "string" },
+    "department": { "type": "string" },
+    "department_other": { "type": "string" },
     "incoming_content": { "type": "text" },
     "outgoing_content": { "type": "text" },
     "subject": { "type": "string" },
