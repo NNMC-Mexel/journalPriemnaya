@@ -406,7 +406,6 @@ body {
   margin-top: 14px;
 }
 
-
 body.modal-open {
   overflow: hidden;
 }
@@ -457,6 +456,7 @@ body.modal-open {
 .journal-modal-actions .btn {
   min-width: 112px;
 }
+
 @media (max-width: 980px) {
   .shell {
     grid-template-columns: 1fr;
