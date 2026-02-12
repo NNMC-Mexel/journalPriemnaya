@@ -1,4 +1,4 @@
-﻿import type { Context } from 'koa';
+import type { Context } from 'koa';
 
 const JOURNAL_LETTER_UID = 'api::journal-letter.journal-letter';
 const JOURNAL_CHANGE_UID = 'api::journal-letter-change.journal-letter-change';
@@ -232,7 +232,7 @@ export default {
         changed_by_user: user.id,
         field_name: 'created',
         old_value: null,
-        new_value: 'Создано',
+        new_value: '�������',
         changed_at: new Date().toISOString()
       }
     });
