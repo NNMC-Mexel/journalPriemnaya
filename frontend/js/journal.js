@@ -52,7 +52,7 @@ function applyLookups(data) {
   ORGANIZATIONS = Object.keys(ORG_EMAIL_MAP);
 }
 
-/* ─── Org ↔ Email unified mapping (predefined + overrides) ─── */
+/* в”Ђв”Ђв”Ђ Org в†” Email unified mapping (predefined + overrides) в”Ђв”Ђв”Ђ */
 
 function getOrgEmailOverrides() {
   try { return JSON.parse(localStorage.getItem('org_email_overrides') || '{}'); }
@@ -82,7 +82,7 @@ function getOrgEmail(orgName) {
   return '';
 }
 
-/* Migrate old custom_org_email_map → org_email_overrides */
+/* Migrate old custom_org_email_map в†’ org_email_overrides */
 (function migrateOldOrgEmailMap() {
   const old = localStorage.getItem('custom_org_email_map');
   if (!old) return;
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const email = getOrgEmail(orgName);
     emailInput.value = email;
-    hint.textContent = email ? '' : 'Введите email для новой организации';
+    hint.textContent = email ? '' : 'Р’РІРµРґРёС‚Рµ email РґР»СЏ РЅРѕРІРѕР№ РѕСЂРіР°РЅРёР·Р°С†РёРё';
     hint.style.color = 'var(--accent)';
   }, (deletedOrg) => {
     removeOrgEmailOverride(deletedOrg);
@@ -158,8 +158,8 @@ async function loadUser() {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     const data = await res.json();
-    if (!res.ok) throw new Error('Ошибка авторизации');
-    document.getElementById('journal-user').textContent = `Пользователь: ${data.display_name || data.login}`;
+    if (!res.ok) throw new Error('РћС€РёР±РєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё');
+    document.getElementById('journal-user').textContent = `РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ: ${data.display_name || data.login}`;
   } catch (err) {
     localStorage.removeItem('journal_token');
     window.location.href = 'journal-login.html';
@@ -172,7 +172,7 @@ async function loadLetters() {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка загрузки');
+    if (!res.ok) throw new Error(data.error || 'РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё');
     lettersCache = Array.isArray(data) ? data : [];
     renderList();
     if (lettersCache.length > 0) {
@@ -193,12 +193,12 @@ function renderList() {
   const filtered = lettersCache.filter((l) => {
     const inNum = l.incoming_number || '';
     const outNum = l.outgoing_number || '';
-    const hay = `${inNum} ${outNum} вх ${inNum} исх ${outNum} ${l.fio} ${l.subject || ''}`.toLowerCase();
+    const hay = `${inNum} ${outNum} РІС… ${inNum} РёСЃС… ${outNum} ${l.fio} ${l.subject || ''}`.toLowerCase();
     return hay.includes(query);
   });
 
   if (filtered.length === 0) {
-    listEl.innerHTML = `<div class="small-note" style="padding: 14px;">Писем пока нет</div>`;
+    listEl.innerHTML = `<div class="small-note" style="padding: 14px;">РџРёСЃРµРј РїРѕРєР° РЅРµС‚</div>`;
     return;
   }
 
@@ -206,12 +206,12 @@ function renderList() {
     const overdue = isOverdue(letter.arrival_date, letter.send_date);
     const item = document.createElement('div');
     item.className = `letter-item ${letter.id === activeLetterId ? 'active' : ''}`;
-    const inNum = letter.incoming_number ? `Вх № ${escapeHtml(letter.incoming_number)}` : 'Вх № —';
-    const outNum = letter.outgoing_number ? `Исх № ${escapeHtml(letter.outgoing_number)}` : 'Исх № —';
-    const badge = overdue ? '<span class="alert-badge"><span class="alert-dot"></span>Просрочка</span>' : '';
+    const inNum = letter.incoming_number ? `Р’С… в„– ${escapeHtml(letter.incoming_number)}` : 'Р’С… в„– вЂ”';
+    const outNum = letter.outgoing_number ? `РСЃС… в„– ${escapeHtml(letter.outgoing_number)}` : 'РСЃС… в„– вЂ”';
+    const badge = overdue ? '<span class="alert-badge"><span class="alert-dot"></span>РџСЂРѕСЃСЂРѕС‡РєР°</span>' : '';
     item.innerHTML = `
-      <div class="letter-title">${inNum} · ${outNum}${badge}</div>
-      <div class="letter-meta">${escapeHtml(letter.fio)} • ${formatDate(letter.arrival_date || letter.send_date)}</div>
+      <div class="letter-title">${inNum} В· ${outNum}${badge}</div>
+      <div class="letter-meta">${escapeHtml(letter.fio)} вЂў ${formatDate(letter.arrival_date || letter.send_date)}</div>
     `;
     item.addEventListener('click', () => selectLetter(letter.id));
     listEl.appendChild(item);
@@ -226,7 +226,7 @@ async function selectLetter(id) {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка загрузки');
+    if (!res.ok) throw new Error(data.error || 'РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё');
     fillForm(data);
     loadHistory(id);
   } catch (err) {
@@ -235,9 +235,9 @@ async function selectLetter(id) {
 }
 
 function fillForm(letter) {
-  const titleIn = letter.incoming_number ? `Вх № ${letter.incoming_number}` : 'Вх № —';
-  const titleOut = letter.outgoing_number ? `Исх № ${letter.outgoing_number}` : 'Исх № —';
-  document.getElementById('detail-title').textContent = `${titleIn} · ${titleOut}`;
+  const titleIn = letter.incoming_number ? `Р’С… в„– ${letter.incoming_number}` : 'Р’С… в„– вЂ”';
+  const titleOut = letter.outgoing_number ? `РСЃС… в„– ${letter.outgoing_number}` : 'РСЃС… в„– вЂ”';
+  document.getElementById('detail-title').textContent = `${titleIn} В· ${titleOut}`;
   currentDirection = letter.direction || 'incoming';
   document.getElementById('fio').value = letter.fio || '';
   document.getElementById('region').value = letter.region || '';
@@ -255,9 +255,9 @@ function fillForm(letter) {
   document.getElementById('operation-code').value = letter.operation_code || letter.operation_other || '';
   document.getElementById('help-type').value = letter.help_type || '';
   document.getElementById('subject').value = letter.subject || '';
-  const createdBy = letter.created_by_name || '—';
-  const updatedBy = letter.updated_by_name || '—';
-  document.getElementById('audit-text').textContent = `Создал: ${createdBy} · Последнее изменение: ${updatedBy}`;
+  const createdBy = letter.created_by_name || 'вЂ”';
+  const updatedBy = letter.updated_by_name || 'вЂ”';
+  document.getElementById('audit-text').textContent = `РЎРѕР·РґР°Р»: ${createdBy} В· РџРѕСЃР»РµРґРЅРµРµ РёР·РјРµРЅРµРЅРёРµ: ${updatedBy}`;
   setStatus('');
   toggleTransferFields();
   const hasIncoming = Boolean(
@@ -279,7 +279,7 @@ function fillForm(letter) {
 
 function resetForm() {
   activeLetterId = null;
-  document.getElementById('detail-title').textContent = 'Новое письмо';
+  document.getElementById('detail-title').textContent = 'РќРѕРІРѕРµ РїРёСЃСЊРјРѕ';
   currentDirection = 'incoming';
   document.getElementById('letter-form').reset();
   document.getElementById('audit-text').textContent = '';
@@ -336,7 +336,7 @@ async function saveLetter(event) {
   }
 
   if ((!payload.incoming_number && !payload.outgoing_number) || !payload.fio) {
-    setStatus('Номер входящего или исходящего и ФИО обязательны', true);
+    setStatus('РќРѕРјРµСЂ РІС…РѕРґСЏС‰РµРіРѕ РёР»Рё РёСЃС…РѕРґСЏС‰РµРіРѕ Рё Р¤РРћ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹', true);
     return;
   }
 
@@ -353,8 +353,8 @@ async function saveLetter(event) {
       body: JSON.stringify(payload)
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка сохранения');
-    setStatus('Сохранено');
+    if (!res.ok) throw new Error(data.error || 'РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ');
+    setStatus('РЎРѕС…СЂР°РЅРµРЅРѕ');
     await loadLetters();
     if (activeLetterId) {
       selectLetter(activeLetterId);
@@ -368,10 +368,16 @@ async function saveLetter(event) {
 
 async function deleteLetter() {
   if (!activeLetterId) {
-    setStatus('Сначала выберите письмо', true);
+    setStatus('РЎРЅР°С‡Р°Р»Р° РІС‹Р±РµСЂРёС‚Рµ РїРёСЃСЊРјРѕ', true);
     return;
   }
-  if (!confirm('Удалить письмо?')) return;
+  const confirmed = await showConfirmDialog({
+    title: 'Подтвердите удаление',
+    message: 'Удалить письмо без возможности восстановления?',
+    confirmText: 'Удалить',
+    cancelText: 'Отмена'
+  });
+  if (!confirmed) return;
 
   try {
     const res = await fetch(`${API_URL}/letters/${activeLetterId}`, {
@@ -379,14 +385,71 @@ async function deleteLetter() {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка удаления');
-    setStatus('Удалено');
+    if (!res.ok) throw new Error(data.error || 'РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ');
+    setStatus('РЈРґР°Р»РµРЅРѕ');
     await loadLetters();
   } catch (err) {
     setStatus(err.message, true);
   }
 }
 
+function showConfirmDialog({ title, message, confirmText, cancelText }) {
+  const dialogTitle = title || 'Подтвердите действие';
+  const dialogMessage = message || 'Вы уверены?';
+  const okText = confirmText || 'Подтвердить';
+  const closeText = cancelText || 'Отмена';
+
+  return new Promise((resolve) => {
+    const existing = document.getElementById('journal-confirm-backdrop');
+    if (existing) existing.remove();
+
+    const backdrop = document.createElement('div');
+    backdrop.id = 'journal-confirm-backdrop';
+    backdrop.className = 'journal-modal-backdrop';
+    backdrop.innerHTML = `
+      <div class="journal-modal" role="dialog" aria-modal="true" aria-labelledby="journal-modal-title">
+        <h3 id="journal-modal-title" class="journal-modal-title">${escapeHtml(dialogTitle)}</h3>
+        <p class="journal-modal-message">${escapeHtml(dialogMessage)}</p>
+        <div class="journal-modal-actions">
+          <button type="button" class="btn secondary" data-action="cancel">${escapeHtml(closeText)}</button>
+          <button type="button" class="btn danger" data-action="confirm">${escapeHtml(okText)}</button>
+        </div>
+      </div>
+    `;
+
+    const cancelBtn = backdrop.querySelector('[data-action="cancel"]');
+    const confirmBtn = backdrop.querySelector('[data-action="confirm"]');
+
+    const close = (result) => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.classList.remove('modal-open');
+      backdrop.remove();
+      resolve(result);
+    };
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close(false);
+      }
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        close(true);
+      }
+    };
+
+    backdrop.addEventListener('click', (event) => {
+      if (event.target === backdrop) close(false);
+    });
+    cancelBtn.addEventListener('click', () => close(false));
+    confirmBtn.addEventListener('click', () => close(true));
+
+    document.body.classList.add('modal-open');
+    document.body.appendChild(backdrop);
+    document.addEventListener('keydown', onKeyDown);
+    cancelBtn.focus();
+  });
+}
 function setStatus(text, isError = false) {
   const el = document.getElementById('status-text');
   el.textContent = text || '';
@@ -394,7 +457,7 @@ function setStatus(text, isError = false) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return 'без даты';
+  if (!dateStr) return 'Р±РµР· РґР°С‚С‹';
   return dateStr;
 }
 
@@ -421,22 +484,22 @@ async function loadHistory(letterId) {
       headers: { Authorization: `Bearer ${getToken()}` }
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка загрузки истории');
+    if (!res.ok) throw new Error(data.error || 'РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё РёСЃС‚РѕСЂРёРё');
     if (!Array.isArray(data) || data.length === 0) {
-      list.innerHTML = '<div class="history-item">История пока пустая</div>';
+      list.innerHTML = '<div class="history-item">РСЃС‚РѕСЂРёСЏ РїРѕРєР° РїСѓСЃС‚Р°СЏ</div>';
       return;
     }
     data.forEach((h) => {
       const item = document.createElement('div');
-      const when = h.changed_at ? String(h.changed_at).replace('T', ' ').slice(0, 19) : '—';
-      const who = h.changed_by_name || '—';
+      const when = h.changed_at ? String(h.changed_at).replace('T', ' ').slice(0, 19) : 'вЂ”';
+      const who = h.changed_by_name || 'вЂ”';
       const field = fieldLabel(h.field_name);
       const oldVal = shortValue(h.old_value);
       const newVal = shortValue(h.new_value);
       item.className = 'history-item';
       item.innerHTML = `
-        <strong>${when}</strong> · ${escapeHtml(who)}<br/>
-        ${escapeHtml(field)}: "${escapeHtml(oldVal)}" → "${escapeHtml(newVal)}"
+        <strong>${when}</strong> В· ${escapeHtml(who)}<br/>
+        ${escapeHtml(field)}: "${escapeHtml(oldVal)}" в†’ "${escapeHtml(newVal)}"
       `;
       list.appendChild(item);
     });
@@ -447,36 +510,36 @@ async function loadHistory(letterId) {
 
 function fieldLabel(name) {
   const map = {
-    created: 'Создание',
-    letter_number: 'Номер письма (общий)',
-    incoming_number: 'Номер входящего',
-    outgoing_number: 'Номер исходящего',
-    fio: 'ФИО',
-    region: 'Область',
-    direction: 'Тип',
-    arrival_date: 'Дата прибытия',
-    send_date: 'Дата отправки',
-    transfer_from: 'Перенос (с)',
-    transfer_to: 'Перенос (на)',
-    transfer_org: 'Мед. организация',
-    transfer_email: 'Эл. почта',
-    mkb: 'МКБ',
-    mkb_other: 'МКБ (другое)',
-    operation_code: 'Код операции',
-    operation_other: 'Код операции (другое)',
-    incoming_content: 'Содержание входящего',
-    outgoing_content: 'Содержание исходящего',
-    subject: 'Тема',
-    content: 'Содержание',
-    help_type: 'Вид помощи'
+    created: 'РЎРѕР·РґР°РЅРёРµ',
+    letter_number: 'РќРѕРјРµСЂ РїРёСЃСЊРјР° (РѕР±С‰РёР№)',
+    incoming_number: 'РќРѕРјРµСЂ РІС…РѕРґСЏС‰РµРіРѕ',
+    outgoing_number: 'РќРѕРјРµСЂ РёСЃС…РѕРґСЏС‰РµРіРѕ',
+    fio: 'Р¤РРћ',
+    region: 'РћР±Р»Р°СЃС‚СЊ',
+    direction: 'РўРёРї',
+    arrival_date: 'Р”Р°С‚Р° РїСЂРёР±С‹С‚РёСЏ',
+    send_date: 'Р”Р°С‚Р° РѕС‚РїСЂР°РІРєРё',
+    transfer_from: 'РџРµСЂРµРЅРѕСЃ (СЃ)',
+    transfer_to: 'РџРµСЂРµРЅРѕСЃ (РЅР°)',
+    transfer_org: 'РњРµРґ. РѕСЂРіР°РЅРёР·Р°С†РёСЏ',
+    transfer_email: 'Р­Р». РїРѕС‡С‚Р°',
+    mkb: 'РњРљР‘',
+    mkb_other: 'РњРљР‘ (РґСЂСѓРіРѕРµ)',
+    operation_code: 'РљРѕРґ РѕРїРµСЂР°С†РёРё',
+    operation_other: 'РљРѕРґ РѕРїРµСЂР°С†РёРё (РґСЂСѓРіРѕРµ)',
+    incoming_content: 'РЎРѕРґРµСЂР¶Р°РЅРёРµ РІС…РѕРґСЏС‰РµРіРѕ',
+    outgoing_content: 'РЎРѕРґРµСЂР¶Р°РЅРёРµ РёСЃС…РѕРґСЏС‰РµРіРѕ',
+    subject: 'РўРµРјР°',
+    content: 'РЎРѕРґРµСЂР¶Р°РЅРёРµ',
+    help_type: 'Р’РёРґ РїРѕРјРѕС‰Рё'
   };
-  return map[name] || name || 'Поле';
+  return map[name] || name || 'РџРѕР»Рµ';
 }
 
 function shortValue(value) {
-  if (value === null || value === undefined) return '—';
+  if (value === null || value === undefined) return 'вЂ”';
   const str = String(value);
-  return str.length > 80 ? `${str.slice(0, 80)}…` : str;
+  return str.length > 80 ? `${str.slice(0, 80)}вЂ¦` : str;
 }
 
 function initSelects() {
@@ -487,7 +550,7 @@ function initSelects() {
 function fillSelect(id, items) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.innerHTML = '<option value="">— Не выбрано —</option>';
+  el.innerHTML = '<option value="">вЂ” РќРµ РІС‹Р±СЂР°РЅРѕ вЂ”</option>';
   (items || []).forEach((v) => {
     const opt = document.createElement('option');
     opt.value = v;
@@ -496,7 +559,7 @@ function fillSelect(id, items) {
   });
 }
 
-/* ─── Combobox ──────────────────────────────────────────── */
+/* в”Ђв”Ђв”Ђ Combobox в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 
 function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
   const input = document.getElementById(inputId);
@@ -533,7 +596,7 @@ function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
       hint.className = 'combobox-hint';
       input.parentElement.appendChild(hint);
     }
-    hint.textContent = 'Добавлено в список';
+    hint.textContent = 'Р”РѕР±Р°РІР»РµРЅРѕ РІ СЃРїРёСЃРѕРє';
     hint.classList.add('visible');
     setTimeout(() => hint.classList.remove('visible'), 2000);
   }
@@ -560,7 +623,7 @@ function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
     if (filteredCustom.length > 0) {
       const sep = document.createElement('div');
       sep.className = 'combobox-separator';
-      sep.textContent = 'Добавленные:';
+      sep.textContent = 'Р”РѕР±Р°РІР»РµРЅРЅС‹Рµ:';
       dropdown.appendChild(sep);
 
       filteredCustom.forEach((v) => {
@@ -587,11 +650,11 @@ function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
 
     const otherOpt = document.createElement('div');
     otherOpt.className = 'combobox-option combobox-option-other';
-    otherOpt.textContent = 'Другое...';
+    otherOpt.textContent = 'Р”СЂСѓРіРѕРµ...';
     otherOpt.addEventListener('mousedown', (e) => {
       e.preventDefault();
       input.value = '';
-      input.placeholder = 'Введите свой вариант...';
+      input.placeholder = 'Р’РІРµРґРёС‚Рµ СЃРІРѕР№ РІР°СЂРёР°РЅС‚...';
       dropdown.classList.remove('open');
       input.focus();
       if (onSelect) onSelect(null);
@@ -648,7 +711,7 @@ function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
       const sel = allOpts[highlighted];
       if (sel.classList.contains('combobox-option-other')) {
         input.value = '';
-        input.placeholder = 'Введите свой вариант...';
+        input.placeholder = 'Р’РІРµРґРёС‚Рµ СЃРІРѕР№ РІР°СЂРёР°РЅС‚...';
         dropdown.classList.remove('open');
         if (onSelect) onSelect(null);
       } else {
@@ -671,7 +734,7 @@ function initCombobox(inputId, items, storageKey, onSelect, onDelete) {
   }
 }
 
-/* ─── Transfer email sync ──────────────────────────────── */
+/* в”Ђв”Ђв”Ђ Transfer email sync в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 
 function initTransferEmailSync() {
   const emailInput = document.getElementById('transfer-email');
@@ -687,14 +750,14 @@ function initTransferEmailSync() {
     const currentEmail = getOrgEmail(org);
     if (email !== currentEmail) {
       saveOrgEmailOverride(org, email);
-      hint.textContent = 'Почта сохранена для этой организации';
+      hint.textContent = 'РџРѕС‡С‚Р° СЃРѕС…СЂР°РЅРµРЅР° РґР»СЏ СЌС‚РѕР№ РѕСЂРіР°РЅРёР·Р°С†РёРё';
       hint.style.color = 'var(--accent)';
       setTimeout(() => { hint.textContent = ''; }, 2500);
     }
   });
 }
 
-/* ─── Transfer fields ───────────────────────────────────── */
+/* в”Ђв”Ђв”Ђ Transfer fields в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 
 function toggleTransferFields() {
   const from = document.getElementById('transfer-from').value;
@@ -717,7 +780,7 @@ function isOverdue(arrival, send) {
   return diffDays >= 5;
 }
 
-/* ─── Section toggles ───────────────────────────────────── */
+/* в”Ђв”Ђв”Ђ Section toggles в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 
 function toggleTransferSection() {
   const section = document.getElementById('transfer-section');
@@ -748,31 +811,31 @@ function toggleOutgoingSection() {
 
 function collapseIncomingSection() {
   document.getElementById('incoming-section').classList.add('hidden');
-  document.getElementById('incoming-toggle').textContent = 'Развернуть';
+  document.getElementById('incoming-toggle').textContent = 'Р Р°Р·РІРµСЂРЅСѓС‚СЊ';
 }
 
 function expandIncomingSection() {
   document.getElementById('incoming-section').classList.remove('hidden');
-  document.getElementById('incoming-toggle').textContent = 'Скрыть';
+  document.getElementById('incoming-toggle').textContent = 'РЎРєСЂС‹С‚СЊ';
 }
 
 function collapseOutgoingSection() {
   document.getElementById('outgoing-section').classList.add('hidden');
-  document.getElementById('outgoing-toggle').textContent = 'Развернуть';
+  document.getElementById('outgoing-toggle').textContent = 'Р Р°Р·РІРµСЂРЅСѓС‚СЊ';
 }
 
 function expandOutgoingSection() {
   document.getElementById('outgoing-section').classList.remove('hidden');
-  document.getElementById('outgoing-toggle').textContent = 'Скрыть';
+  document.getElementById('outgoing-toggle').textContent = 'РЎРєСЂС‹С‚СЊ';
 }
 
 function collapseTransferSection() {
   document.getElementById('transfer-section').classList.add('hidden');
-  document.getElementById('transfer-toggle').textContent = 'Развернуть';
+  document.getElementById('transfer-toggle').textContent = 'Р Р°Р·РІРµСЂРЅСѓС‚СЊ';
 }
 
 function expandTransferSection() {
   document.getElementById('transfer-section').classList.remove('hidden');
   toggleTransferFields();
-  document.getElementById('transfer-toggle').textContent = 'Скрыть';
+  document.getElementById('transfer-toggle').textContent = 'РЎРєСЂС‹С‚СЊ';
 }
